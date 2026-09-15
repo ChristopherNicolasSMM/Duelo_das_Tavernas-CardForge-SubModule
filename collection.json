@@ -1,0 +1,9 @@
+{
+  "name": "Duelo das Tavernas",
+  "description": "Fermento & Honra — O Duelo das Tavernas. Card game oficial da Cervejaria Valirian (GDD v2.1): 6 decks-personagem, 180 cartas de jogo (Ataque/Defesa/Cura/Habilidade/Especial).",
+  "game": "Duelo das Tavernas",
+  "based_on": null,
+  "created_at": 1789393363.9417415,
+  "updated_at": 1789393363.9417422,
+  "identifier_field": "name"
+}

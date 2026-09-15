@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fermento & Honra — Manual Oficial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════════════════ */
+:root {
+  --tinta:       #120E06;
+  --tinta-med:   #2A2010;
+  --tinta-claro: #3D3018;
+  --ambar:       #C8840A;
+  --ambar-claro: #E8A82A;
+  --chama:       #D4520E;
+  --perg:        #F5E6C8;
+  --perg-esc:    #DEC89A;
+  --ouro:        #C8A028;
+  --floresta:    #1E3D1E;
+  --aco:         #6B8FA8;
+  --dragao:      #8B1F1F;
+  --cinza:       #8A7A68;
+
+  /* type colors */
+  --ataque:     #C8840A;
+  --defesa:     #6B8FA8;
+  --cura:       #2E7D32;
+  --habilidade: #C8A028;
+  --especial:   #D4520E;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--tinta);
+  color: var(--perg);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--tinta-med); }
+::-webkit-scrollbar-thumb { background: var(--ambar); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════
+   GRID / PARCHMENT TEXTURE OVERLAY
+═══════════════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent, transparent 72px, rgba(200,132,10,.025) 72px, rgba(200,132,10,.025) 73px),
+    repeating-linear-gradient(90deg,  transparent, transparent 72px, rgba(200,132,10,.025) 72px, rgba(200,132,10,.025) 73px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   STICKY NAV
+═══════════════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(18,14,6,.96);
+  border-bottom: 1px solid rgba(200,132,10,.35);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 54px;
+  backdrop-filter: blur(6px);
+}
+
+.nav-logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--perg);
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.nav-logo span { color: var(--ambar); font-size: .8rem; letter-spacing: .18em; display: inline-block; margin-left: .6rem; }
+
+.nav-links {
+  display: flex;
+  gap: .2rem;
+  list-style: none;
+  overflow-x: auto;
+  padding: 0 .5rem;
+}
+.nav-links a {
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  text-decoration: none;
+  padding: .3rem .6rem;
+  border-radius: var(--r-sm);
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--ambar); background: rgba(200,132,10,.1); }
+
+/* ═══════════════════════════════════════════════════════
+   COVER
+═══════════════════════════════════════════════════════ */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 7rem 2rem 4rem;
+  position: relative;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%,  rgba(200,132,10,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 10% 100%, rgba(30,61,30,.3)    0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 90% 90%,  rgba(139,31,31,.2)   0%, transparent 60%);
+}
+
+.cover-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  letter-spacing: .55em;
+  color: var(--ambar);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  opacity: .85;
+}
+
+.cover-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 9vw, 7rem);
+  color: var(--perg);
+  line-height: 1;
+  letter-spacing: .03em;
+  text-shadow: 0 0 80px rgba(200,132,10,.35), 0 6px 30px rgba(0,0,0,.9);
+  margin-bottom: .4rem;
+}
+
+.cover-subtitle {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 3vw, 1.9rem);
+  color: var(--ambar-claro);
+  letter-spacing: .18em;
+  text-shadow: 0 0 40px rgba(232,168,42,.4);
+  margin-bottom: 2.5rem;
+}
+
+.cover-divider {
+  width: 320px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ambar), transparent);
+  margin: 0 auto 2.5rem;
+  position: relative;
+}
+.cover-divider::before {
+  content: '⚔';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: var(--tinta);
+  padding: 0 1rem;
+  font-size: 20px;
+  color: var(--ambar);
+}
+
+.cover-tagline {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.85rem, 1.8vw, 1.05rem);
+  letter-spacing: .45em;
+  color: var(--ambar);
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.cover-lore {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(.95rem, 2vw, 1.15rem);
+  color: rgba(245,230,200,.8);
+  max-width: 620px;
+  line-height: 1.9;
+  margin: 0 auto 3rem;
+}
+
+.cover-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  justify-content: center;
+}
+.cover-badge {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  border: 1px solid rgba(200,132,10,.4);
+  padding: .45rem 1.2rem;
+}
+
+.cover-scroll {
+  position: absolute;
+  bottom: 2rem; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  color: rgba(200,132,10,.5);
+  text-transform: uppercase;
+  animation: pulse-down 2s infinite;
+}
+@keyframes pulse-down {
+  0%,100% { opacity: .4; transform: translateX(-50%) translateY(0); }
+  50%      { opacity: .8; transform: translateX(-50%) translateY(6px); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PALETTE ACCENT BAR
+═══════════════════════════════════════════════════════ */
+.accent-bar {
+  height: 6px;
+  display: flex;
+  position: relative; z-index: 1;
+}
+.accent-bar div { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════
+   PAGE SECTIONS
+═══════════════════════════════════════════════════════ */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+.page-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+.page-full {
+  width: 100%;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,132,10,.3), transparent);
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+═══════════════════════════════════════════════════════ */
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  letter-spacing: .5em;
+  color: var(--chama);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(212,82,14,.3);
+}
+
+.h-display {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  color: var(--perg);
+  line-height: 1.2;
+  letter-spacing: .03em;
+  margin-bottom: 1.8rem;
+}
+
+.h-section {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  color: var(--ambar-claro);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin: 2.5rem 0 1rem;
+}
+
+.body-text {
+  font-size: 1rem;
+  color: rgba(245,230,200,.82);
+  line-height: 1.9;
+  max-width: 720px;
+}
+
+.italic-lore {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ambar-claro);
+  line-height: 1.85;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CALLOUT BOXES
+═══════════════════════════════════════════════════════ */
+.callout {
+  border-left: 3px solid var(--ambar);
+  padding: 1.3rem 1.8rem;
+  background: rgba(200,132,10,.06);
+  margin: 2rem 0;
+}
+.callout.green  { border-color: var(--cura);   background: rgba(46,125,50,.07); }
+.callout.red    { border-color: var(--dragao);  background: rgba(139,31,31,.07); }
+.callout.blue   { border-color: var(--aco);     background: rgba(107,143,168,.07); }
+.callout.gold   { border-color: var(--ouro);    background: rgba(200,160,40,.07); }
+.callout.flame  { border-color: var(--chama);   background: rgba(212,82,14,.07); }
+
+.callout-title {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-bottom: .6rem;
+}
+.callout.green  .callout-title { color: var(--cura); }
+.callout.red    .callout-title { color: var(--dragao); }
+.callout.blue   .callout-title { color: var(--aco); }
+.callout.gold   .callout-title { color: var(--ouro); }
+.callout.flame  .callout-title { color: var(--chama); }
+
+.rule-box {
+  border: 1px solid rgba(200,132,10,.35);
+  padding: 1.5rem 2rem;
+  background: rgba(200,132,10,.04);
+  position: relative;
+  margin: 1.5rem 0;
+}
+.rule-box::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -10px; left: 1.5rem;
+  background: var(--tinta);
+  padding: 0 .5rem;
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .25em;
+  color: var(--ambar);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TABLES
+═══════════════════════════════════════════════════════ */
+.table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+thead tr {
+  background: var(--tinta-med);
+  border-bottom: 1px solid rgba(200,132,10,.4);
+}
+thead th {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--chama);
+  padding: .8rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid rgba(200,132,10,.08); }
+tbody tr:hover { background: rgba(200,132,10,.04); }
+tbody td {
+  padding: .7rem 1rem;
+  color: rgba(245,230,200,.8);
+  vertical-align: top;
+  line-height: 1.55;
+}
+tbody td:first-child { color: var(--perg); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════════════
+   CARD TYPE BADGES
+═══════════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .25rem .7rem;
+  border: 1px solid currentColor;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+}
+.badge-ataque     { color: var(--ataque); }
+.badge-defesa     { color: var(--defesa); }
+.badge-cura       { color: var(--cura); }
+.badge-habilidade { color: var(--habilidade); }
+.badge-especial   { color: var(--especial); }
+
+/* ═══════════════════════════════════════════════════════
+   STEP SEQUENCE
+═══════════════════════════════════════════════════════ */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.step {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  position: relative;
+}
+.step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 26px; top: 52px; bottom: 0;
+  width: 1px;
+  background: rgba(200,132,10,.2);
+}
+.step-num {
+  width: 52px; height: 52px;
+  border: 1px solid var(--ambar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  color: var(--ambar);
+  font-weight: 700;
+  background: var(--tinta);
+}
+.step-content h4 {
+  font-family: 'Cinzel', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ambar-claro);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+  margin-top: .7rem;
+}
+.step-content p {
+  font-size: .95rem;
+  color: rgba(245,230,200,.75);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD TYPE GRID
+═══════════════════════════════════════════════════════ */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin: 2rem 0;
+}
+.type-card {
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 1.6rem 1.4rem;
+  position: relative;
+  background: rgba(255,255,255,.02);
+}
+.type-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.type-card.atk::before     { background: var(--ataque); }
+.type-card.def::before     { background: var(--defesa); }
+.type-card.heal::before    { background: var(--cura); }
+.type-card.ability::before { background: var(--habilidade); }
+.type-card.special::before { background: var(--especial); }
+
+.type-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+.type-name {
+  font-family: 'Cinzel', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+.type-card.atk     .type-name { color: var(--ataque); }
+.type-card.def     .type-name { color: var(--defesa); }
+.type-card.heal    .type-name { color: var(--cura); }
+.type-card.ability .type-name { color: var(--habilidade); }
+.type-card.special .type-name { color: var(--especial); }
+
+.type-body { font-size: .88rem; color: rgba(245,230,200,.7); line-height: 1.65; }
+.type-example {
+  margin-top: 1rem;
+  padding: .8rem 1rem;
+  background: rgba(0,0,0,.25);
+  border-left: 2px solid rgba(255,255,255,.1);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: .85rem;
+  color: rgba(245,230,200,.6);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHARACTER / DECK CARDS
+═══════════════════════════════════════════════════════ */
+.char-sheet {
+  border: 1px solid rgba(200,132,10,.25);
+  margin: 2.5rem 0;
+  position: relative;
+  background: rgba(200,132,10,.025);
+}
+.char-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid rgba(200,132,10,.2);
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.char-glyph {
+  font-size: 3rem;
+  width: 72px; height: 72px;
+  border: 1px solid rgba(200,132,10,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--tinta-med);
+}
+.char-title-block { flex: 1; min-width: 200px; }
+.char-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  color: var(--perg);
+  line-height: 1.1;
+  margin-bottom: .3rem;
+}
+.char-style-label {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-bottom: .6rem;
+}
+.char-archetype {
+  font-size: .9rem;
+  color: rgba(245,230,200,.65);
+}
+.char-difficulty {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .6rem;
+}
+.diff-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,132,10,.4);
+}
+.diff-dot.filled { background: var(--ambar); border-color: var(--ambar); }
+.diff-label {
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ambar);
+}
+
+.char-body { padding: 2rem 2.5rem; }
+.char-passive {
+  border: 1px solid rgba(200,132,10,.3);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.8rem;
+  background: rgba(200,132,10,.05);
+  position: relative;
+}
+.char-passive::before {
+  content: 'HABILIDADE PASSIVA';
+  position: absolute;
+  top: -10px; left: 1rem;
+  background: var(--tinta);
+  padding: 0 .5rem;
+  font-family: 'Cinzel', serif;
+  font-size: .58rem;
+  letter-spacing: .25em;
+  color: var(--ouro);
+}
+.passive-name {
+  font-family: 'Cinzel', serif;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--ouro);
+  letter-spacing: .1em;
+  margin-bottom: .4rem;
+}
+.passive-text { font-size: .92rem; color: rgba(245,230,200,.8); line-height: 1.7; }
+
+.char-lore {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: .95rem;
+  color: rgba(245,230,200,.65);
+  line-height: 1.8;
+  border-left: 2px solid rgba(200,132,10,.3);
+  padding-left: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+
+.char-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.mini-card {
+  border: 1px solid rgba(255,255,255,.07);
+  padding: 1rem 1.1rem;
+  position: relative;
+  background: rgba(255,255,255,.02);
+}
+.mini-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+}
+.mini-card.atk::before     { background: var(--ataque); }
+.mini-card.def::before     { background: var(--defesa); }
+.mini-card.heal::before    { background: var(--cura); }
+.mini-card.ability::before { background: var(--habilidade); }
+.mini-card.special::before { background: var(--especial); }
+
+.mini-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--perg);
+  margin-bottom: .25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+.mini-card-qty {
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  color: var(--cinza);
+  flex-shrink: 0;
+}
+.mini-card-effect { font-size: .82rem; color: rgba(245,230,200,.7); line-height: 1.5; }
+.mini-card-stats {
+  display: flex;
+  gap: .6rem;
+  margin-top: .4rem;
+}
+.stat-pill {
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .1em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+.stat-atk { background: rgba(200,132,10,.2); color: var(--ambar); }
+.stat-def { background: rgba(107,143,168,.2); color: var(--aco); }
+.stat-heal { background: rgba(46,125,50,.2); color: #5FA05F; }
+
+/* Char header accent line per deck */
+.char-sheet.sombras .char-header  { border-left: 4px solid #6B3FA0; }
+.char-sheet.druida  .char-header  { border-left: 4px solid var(--floresta); }
+.char-sheet.driade  .char-header  { border-left: 4px solid #2E7D32; }
+.char-sheet.orvalho .char-header  { border-left: 4px solid var(--aco); }
+.char-sheet.juramento .char-header { border-left: 4px solid var(--ambar); }
+.char-sheet.tempestade .char-header { border-left: 4px solid var(--chama); }
+
+/* ═══════════════════════════════════════════════════════
+   MODES SECTION
+═══════════════════════════════════════════════════════ */
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.mode-card {
+  border: 1px solid rgba(200,132,10,.2);
+  padding: 2rem 1.8rem;
+  background: rgba(200,132,10,.025);
+  position: relative;
+}
+.mode-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 2rem;
+  width: 2.5rem; height: 3px;
+  background: var(--ambar);
+}
+.mode-icon { font-size: 1.8rem; display: block; margin-bottom: 1rem; }
+.mode-name {
+  font-family: 'Cinzel', serif;
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ambar-claro);
+  margin-bottom: .4rem;
+}
+.mode-players {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .2em;
+  color: var(--chama);
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+.mode-body { font-size: .88rem; color: rgba(245,230,200,.7); line-height: 1.7; }
+.mode-rule {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(200,132,10,.15);
+  font-size: .84rem;
+  color: var(--ambar);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOSSARY
+═══════════════════════════════════════════════════════ */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: .8rem;
+  margin-top: 1.5rem;
+}
+.glossary-item {
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(200,132,10,.12);
+  background: rgba(200,132,10,.02);
+}
+.glossary-term {
+  font-family: 'Cinzel', serif;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ambar);
+  letter-spacing: .08em;
+  margin-bottom: .3rem;
+}
+.glossary-def { font-size: .85rem; color: rgba(245,230,200,.7); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════ */
+.faq-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.faq-item {
+  border: 1px solid rgba(200,132,10,.14);
+  overflow: hidden;
+}
+.faq-q {
+  padding: 1rem 1.4rem;
+  background: rgba(200,132,10,.04);
+  font-family: 'Cinzel', serif;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--perg);
+  letter-spacing: .04em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.faq-q span { color: var(--ambar); font-size: 1rem; transition: transform .3s; }
+.faq-a {
+  padding: 1rem 1.4rem;
+  font-size: .88rem;
+  color: rgba(245,230,200,.75);
+  line-height: 1.7;
+  border-top: 1px solid rgba(200,132,10,.1);
+  display: none;
+}
+.faq-item.open .faq-a { display: block; }
+.faq-item.open .faq-q span { transform: rotate(45deg); }
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem 5rem;
+  border-top: 1px solid rgba(200,132,10,.15);
+  position: relative; z-index: 1;
+}
+.footer-logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.5rem;
+  color: var(--perg);
+  letter-spacing: .08em;
+}
+.footer-logo span {
+  display: block;
+  font-size: .8rem;
+  color: var(--ambar);
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  margin-top: .3rem;
+}
+.footer-tagline {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: .95rem;
+  color: rgba(245,230,200,.4);
+  margin-top: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRINT STYLES
+═══════════════════════════════════════════════════════ */
+@media print {
+  .nav, .cover-scroll { display: none; }
+  body { background: white; color: black; }
+  .page, .page-wide { padding: 2rem 1rem; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .char-header { flex-direction: column; gap: 1rem; }
+  .char-body { padding: 1.5rem; }
+  .char-cards-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ NAV ══════════════════════ -->
+<nav class="nav">
+  <div class="nav-logo">Fermento &amp; Honra <span>Manual Oficial</span></div>
+  <ul class="nav-links">
+    <li><a href="#componentes">Componentes</a></li>
+    <li><a href="#preparacao">Preparação</a></li>
+    <li><a href="#turno">Turno</a></li>
+    <li><a href="#cartas">Cartas</a></li>
+    <li><a href="#personagens">Personagens</a></li>
+    <li><a href="#modos">Modos</a></li>
+    <li><a href="#regras-especiais">Regras</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#glossario">Glossário</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════ COVER ══════════════════════ -->
+<section class="cover">
+  <p class="cover-eyebrow">Cervejaria Valirian · Manual Oficial · Edição do Aventureiro</p>
+  <h1 class="cover-title">Fermento<br>&amp; Honra</h1>
+  <p class="cover-subtitle">O Duelo das Tavernas</p>
+  <div class="cover-divider"></div>
+  <p class="cover-tagline">Card Game Competitivo · 2 a 6 Jogadores · 15–30 min</p>
+  <p class="cover-lore">
+    "Nas terras de Valirian, diz-se que toda cerveja carrega uma alma. Quando a lua cheia banha o barril sagrado, essas almas ganham forma. E disputam. Não com espadas, não com magias — com cartas, estratégia e a honra do seu estilo. Que o melhor Mestre da Taverna vença."
+  </p>
+  <div class="cover-badges">
+    <span class="cover-badge">2–6 Jogadores</span>
+    <span class="cover-badge">14+ Anos</span>
+    <span class="cover-badge">15–30 Minutos</span>
+    <span class="cover-badge">180 Cartas</span>
+    <span class="cover-badge">6 Decks</span>
+  </div>
+  <div class="cover-scroll">▼ Rolar para jogar</div>
+</section>
+
+<div class="accent-bar">
+  <div style="background:#C8840A"></div>
+  <div style="background:#D4520E"></div>
+  <div style="background:#8B1F1F"></div>
+  <div style="background:#1E3D1E"></div>
+  <div style="background:#6B8FA8"></div>
+  <div style="background:#C8A028"></div>
+  <div style="background:#F5E6C8"></div>
+</div>
+
+<!-- ══════════════════════ LORE INTRO ══════════════════════ -->
+<section class="page" id="intro">
+  <p class="eyebrow">Prólogo</p>
+  <h2 class="h-display">Bem-vindo à Taverna Valirian</h2>
+  <p class="body-text">
+    Na Taverna Valirian existe uma tradição sagrada — o <strong style="color:var(--ambar)">Torneio do Barril</strong>. Toda lua cheia, as cervejas do portfólio deixam de ser apenas líquidos e ganham forma, voz e poder. Cada uma empunha suas cartas com um único objetivo: conquistar o título de <em>Mestre da Taverna</em> e o direito de ser a primeira a ser servida no novo lote.
+  </p>
+  <br>
+  <p class="body-text">
+    Você é um dessas cervejas. Escolha seu deck — o Pacto sombrio da Porter, a sapiência druídica da Irish Red Ale, o dom curativo da Dríade, a agilidade cristalina do Witbier, a versatilidade do Aventureiro ou a fúria imprevisível do Trigo — e prove que o seu estilo merece o barril de honra.
+  </p>
+  <div class="callout" style="margin-top:2.5rem;">
+    <p class="callout-title">Objetivo do Jogo</p>
+    <p class="italic-lore">"Ser o último jogador com Pints de Glória acima de zero. Esse jogador é declarado <strong>Mestre da Taverna Valirian</strong> e vence a partida."</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ COMPONENTES ══════════════════════ -->
+<section class="page" id="componentes">
+  <p class="eyebrow">01 — Conteúdo da Caixa</p>
+  <h2 class="h-display">Componentes</h2>
+  <p class="body-text">Abra a caixa e verifique se todos os itens estão presentes antes de jogar:</p>
+
+  <div class="table-wrap" style="margin-top:2rem;">
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Descrição</th><th>Qtd.</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>🃏 Decks de Cartas</td><td>Um deck por personagem, 30 cartas cada. Cada deck já vem em sleeves com a arte do personagem na capa.</td><td>6 decks (180 cartas)</td></tr>
+        <tr><td>🛢️ Marcadores de Pints</td><td>Contadores em formato de barril miniatura com trilho de 20 posições. Representam seus Pints de Glória (pontos de vida).</td><td>6 unidades</td></tr>
+        <tr><td>🎲 D20 Valirian</td><td>Dado de vinte faces personalizado com o brasão da Cervejaria Valirian. Usado para definir a ordem de turno e pela Tempestade de Trigo.</td><td>1 unidade</td></tr>
+        <tr><td>📋 Cartas de Referência</td><td>Resumo de regras e da habilidade passiva de cada personagem. Mantenha à vista durante o jogo.</td><td>6 cartas</td></tr>
+        <tr><td>📖 Manual Ilustrado</td><td>Este documento. Guarde para consultas futuras.</td><td>1 unidade</td></tr>
+        <tr><td>📦 Box Colecionador</td><td>Caixa rígida com fecho magnético e compartimentos para cada deck.</td><td>1 unidade</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red" style="margin-top:2rem;">
+    <p class="callout-title">Peça Faltando?</p>
+    <p style="font-size:.9rem;color:rgba(245,230,200,.8);">Se algum componente estiver faltando ou danificado, entre em contato: <strong style="color:var(--perg)">contato@valirian.com.br</strong></p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ PREPARAÇÃO ══════════════════════ -->
+<section class="page" id="preparacao">
+  <p class="eyebrow">02 — Início da Partida</p>
+  <h2 class="h-display">Preparação</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Escolha seu personagem</h4>
+        <p>Cada jogador escolhe um deck de personagem. Para sua primeira partida, recomendamos <strong style="color:var(--perg)">Orvalho de Valirian</strong> (Iniciante) ou <strong style="color:var(--perg)">Juramento do Aventureiro</strong> (Intermediário). Cada jogador deve ter um deck diferente.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Embaralhe seu deck</h4>
+        <p>Embaralhe bem as 30 cartas do seu deck. Coloque-o virado para baixo à sua frente — este é seu baralho. Separe um espaço ao lado para a <strong style="color:var(--perg)">pilha de descarte</strong> (começa vazia).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Posicione o marcador de Pints</h4>
+        <p>Cada jogador pega um <strong style="color:var(--perg)">Marcador de Barril</strong> e o coloca na posição <strong style="color:var(--ambar)">20</strong>. Esses são seus <em>Pints de Glória</em> — seus pontos de vida. Você está eliminado quando chegar a zero.</p>
+        <div class="callout blue" style="margin-top:1rem; max-width:460px;">
+          <p class="callout-title">Modo Duelo (2 jogadores)</p>
+          <p style="font-size:.88rem;color:rgba(245,230,200,.8);">Para partidas 1v1 mais longas, comece com <strong style="color:var(--perg)">25 Pints de Glória</strong> cada.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Habilidade Passiva Especial (Juramento do Aventureiro)</h4>
+        <p>Se alguém estiver jogando com o deck <strong style="color:var(--ambar)">Juramento do Aventureiro</strong>, esse jogador deve escolher agora um tipo de carta — Ataque, Defesa, Cura ou Habilidade. Cartas do tipo escolhido terão +1 de efeito durante toda a partida. Anuncie sua escolha em voz alta.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Compre a mão inicial</h4>
+        <p>Cada jogador compra as <strong style="color:var(--perg)">5 cartas do topo</strong> do seu baralho e as mantém na mão (sem mostrar aos outros).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Defina a ordem dos turnos</h4>
+        <p>Cada jogador rola o <strong style="color:var(--perg)">D20 Valirian</strong>. Quem tirar o maior número joga primeiro. Em caso de empate, role novamente apenas entre os empatados. O turno segue no sentido horário.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule-box" data-label="Dica dos Veteranos" style="margin-top:1rem;">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.8);line-height:1.8;">Coloque a <strong style="color:var(--perg)">Carta de Referência</strong> do seu personagem visível à sua frente durante toda a partida. Ela traz sua habilidade passiva e os lembretes de jogo mais importantes.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ ESTRUTURA DO TURNO ══════════════════════ -->
+<section class="page" id="turno">
+  <p class="eyebrow">03 — Fluxo de Jogo</p>
+  <h2 class="h-display">Estrutura do Turno</h2>
+  <p class="body-text">Cada turno segue exatamente estes seis passos, nesta ordem. Não pule nenhum passo.</p>
+
+  <div class="steps" style="margin-top:2.5rem;">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Comprar</h4>
+        <p>Compre <strong style="color:var(--perg)">1 carta</strong> do topo do seu baralho e adicione à sua mão. Se seu baralho estiver vazio, embaralhe o descarte e continue. Se não houver descarte, pule este passo.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Habilidade Passiva (pré-turno)</h4>
+        <p>Verifique se a condição da sua habilidade passiva foi atendida neste momento. Se sim, resolva-a agora <em>antes</em> de jogar qualquer carta.</p>
+        <div class="callout gold" style="margin-top:.8rem; max-width:500px;">
+          <p class="callout-title">Exceção — Tempestade de Trigo</p>
+          <p style="font-size:.85rem;color:rgba(245,230,200,.8);">Role o D20 neste momento. O resultado fica ativo durante todo o turno — algumas cartas do deck referenciam esse número.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Jogar Cartas</h4>
+        <p>Jogue <strong style="color:var(--perg)">1 carta</strong> da sua mão — esta é sua <em>ação principal</em>. Resolva o efeito da carta imediatamente. Algumas cartas ou habilidades concedem ações adicionais no mesmo turno.</p>
+        <p style="margin-top:.6rem;color:rgba(245,230,200,.65);font-size:.88rem;">Se sua mão estiver completamente vazia ao chegar aqui: compre 2 cartas imediatamente e jogue 1 delas como ação principal.</p>
+        <div class="callout" style="margin-top:.8rem; max-width:500px;">
+          <p class="callout-title">Orvalho de Valirian — Passiva</p>
+          <p style="font-size:.85rem;color:rgba(245,230,200,.8);">A <em>primeira</em> carta jogada no turno não conta como ação principal — você pode jogar uma segunda carta normalmente como ação principal após ela.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Habilidade Passiva (pós-turno)</h4>
+        <p>Algumas habilidades passivas são verificadas no <em>final</em> do turno, após jogar todas as cartas. Verifique e resolva agora.</p>
+        <div class="callout green" style="margin-top:.8rem;max-width:460px;">
+          <p class="callout-title">Decks com passiva pós-turno</p>
+          <p style="font-size:.85rem;color:rgba(245,230,200,.8);"><strong style="color:var(--perg)">Sangue de Druida:</strong> Se jogou ≥2 cartas neste turno → cure 1 de vida.<br><strong style="color:var(--perg)">Elixir da Dríade:</strong> Se curou alguém neste turno → compre 1 carta.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Ajustar a Mão</h4>
+        <p>Descarte cartas da mão até ter no máximo <strong style="color:var(--perg)">5 cartas</strong>. Em seguida, compre cartas do seu baralho até ter <strong style="color:var(--perg)">5 na mão</strong>.</p>
+        <p style="margin-top:.6rem;color:rgba(245,230,200,.65);font-size:.88rem;">Se o baralho acabar durante a compra, embaralhe o descarte para continuar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Passar a Vez</h4>
+        <p>Anuncie "Passo a vez" e o próximo jogador (sentido horário) inicia seu turno do Passo 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h-section">Diagrama de Fluxo</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Passo</th><th>Ação</th><th>Verificações Especiais</th></tr></thead>
+      <tbody>
+        <tr><td>1 — Comprar</td><td>Compre 1 carta do baralho</td><td>Baralho vazio → embaralhe descarte</td></tr>
+        <tr><td>2 — Passiva Pré</td><td>Verifique condição pré-turno</td><td>Tempestade de Trigo: role D20 agora</td></tr>
+        <tr><td>3 — Jogar</td><td>Jogue 1 carta (ação principal)</td><td>Orvalho: 1ª carta não é ação principal</td></tr>
+        <tr><td>4 — Passiva Pós</td><td>Verifique condição pós-turno</td><td>Sangue de Druida / Elixir da Dríade</td></tr>
+        <tr><td>5 — Ajustar Mão</td><td>Descarte até ≤5, compre até 5</td><td>Pacto das Sombras: verifica passiva aqui</td></tr>
+        <tr><td>6 — Passar Vez</td><td>Próximo jogador começa</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ TIPOS DE CARTAS ══════════════════════ -->
+<section class="page" id="cartas">
+  <p class="eyebrow">04 — Os Tipos de Carta</p>
+  <h2 class="h-display">Como as Cartas Funcionam</h2>
+  <p class="body-text">Existem <strong style="color:var(--perg)">5 tipos de cartas</strong>, identificados pela cor da borda e pelo ícone no canto superior esquerdo. Cada tipo tem regras específicas de uso.</p>
+
+  <div class="type-grid" style="margin-top:2.5rem;">
+
+    <div class="type-card atk">
+      <span class="type-icon">💥</span>
+      <p class="type-name">Ataque</p>
+      <p class="type-body">Causa dano a um oponente, reduzindo seus Pints de Glória. Quando você joga uma carta de Ataque, escolha um alvo (qualquer outro jogador ainda em jogo). Se o alvo tiver Defesas ativas, o dano atinge primeiro as Defesas.</p>
+      <div class="type-example">"Cause 3 de dano em um oponente."</div>
+    </div>
+
+    <div class="type-card def">
+      <span class="type-icon">🛡️</span>
+      <p class="type-name">Defesa</p>
+      <p class="type-body">Ao jogar uma carta de Defesa, coloque-a <em>virada para cima</em> na sua área de jogo — ela fica em campo até ser destruída. Use fichas para marcar os pontos de defesa consumidos. Você pode ter múltiplas Defesas ativas simultaneamente.</p>
+      <div class="type-example">"🛡️×3 — absorve até 3 pontos de dano antes de ser destruída."</div>
+    </div>
+
+    <div class="type-card heal">
+      <span class="type-icon">🌿</span>
+      <p class="type-name">Cura</p>
+      <p class="type-body">Recupera Pints de Glória. Você nunca pode curar acima de <strong>20 Pints</strong> (25 no Duelo). Salvo indicação explícita na carta, a cura é aplicada a você mesmo. Algumas cartas permitem curar um aliado.</p>
+      <div class="type-example">"Cure 3 de vida." — adiciona 3 Pints ao seu marcador.</div>
+    </div>
+
+    <div class="type-card ability">
+      <span class="type-icon">✨</span>
+      <p class="type-name">Habilidade</p>
+      <p class="type-body">Cartas com efeitos que não se encaixam nas outras categorias: comprar cartas extras, forçar descartes nos oponentes, manipular a pilha de descarte, causar dano em área, ver a mão adversária, entre outros.</p>
+      <div class="type-example">"Todos os oponentes descartam 1 carta."</div>
+    </div>
+
+    <div class="type-card special">
+      <span class="type-icon">⚡</span>
+      <p class="type-name">Especial</p>
+      <p class="type-body">Versões poderosas das outras categorias, sempre com um <strong>custo ou condição</strong> para ser jogada. O custo é obrigatório e deve ser pago mesmo que o efeito não seja ideal. São as cartas mais raras do deck (2 por deck).</p>
+      <div class="type-example">"Cause 6 de dano. Você sofre 2 de dano. Só pode usar se tiver ≤5 de vida."</div>
+    </div>
+
+  </div>
+
+  <h3 class="h-section">Regras Detalhadas de Defesa</h3>
+  <div class="body-text">
+    <p>A Defesa é o tipo mais estratégico. Entenda como ela funciona:</p>
+  </div>
+  <div class="callout blue" style="margin-top:1.2rem;">
+    <p class="callout-title">Como absorver dano com Defesas</p>
+    <ol style="padding-left:1.4rem;font-size:.9rem;color:rgba(245,230,200,.82);line-height:1.8;margin-top:.4rem;">
+      <li>Quando você recebe dano, o atacante escolhe você como alvo.</li>
+      <li>Se você tiver <strong style="color:var(--perg)">uma ou mais Defesas ativas</strong>, <em>você</em> decide qual delas absorve o dano primeiro.</li>
+      <li>O dano é subtraído dos pontos da Defesa escolhida. Marque com fichas.</li>
+      <li>Quando todos os pontos de uma Defesa forem consumidos, ela vai para o descarte. Se a carta tiver efeito "Quando destruída:", esse efeito é resolvido antes de ir ao descarte.</li>
+      <li>Dano que excede a Defesa ativa passa para a próxima Defesa (se houver) ou diretamente para os seus Pints de Glória.</li>
+    </ol>
+  </div>
+  <div class="rule-box" data-label="Exemplo Prático" style="margin-top:1.2rem;">
+    <p style="font-size:.9rem;color:rgba(245,230,200,.8);line-height:1.8;">Você tem duas Defesas ativas: <strong style="color:var(--perg)">🛡️×3</strong> e <strong style="color:var(--perg)">🛡️×2</strong>. Um oponente causa 5 de dano.<br>
+    → Você escolhe a Defesa 🛡️×3 para absorver primeiro: desconta 3, restam 2 de dano.<br>
+    → O dano restante (2) vai para a Defesa 🛡️×2: ela absorve os 2 e é destruída.<br>
+    → Seus Pints de Glória não são afetados.</p>
+  </div>
+
+  <h3 class="h-section">Níveis de Poder das Cartas</h3>
+  <p class="body-text">Cada carta é classificada por nível de poder. Essa classificação ajuda no balanceamento dos decks — todos os decks seguem a mesma distribuição:</p>
+  <div class="table-wrap" style="margin-top:1rem;">
+    <table>
+      <thead><tr><th>Nível</th><th>Qtd. por Deck</th><th>%</th><th>Descrição</th></tr></thead>
+      <tbody>
+        <tr><td>🟢 Baixo</td><td>21 cartas</td><td>70%</td><td>Efeitos padrão que mantêm o fluxo do jogo. Backbone da estratégia.</td></tr>
+        <tr><td>🟡 Médio</td><td>7 cartas</td><td>23%</td><td>Efeitos com condição ou bônus situacional. Peças-chave dos combos.</td></tr>
+        <tr><td>🔴 Alto</td><td>2 cartas</td><td>7%</td><td>Cartas "vire o jogo". Sempre têm custo ou risco elevado. Use no momento certo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ HABILIDADES PASSIVAS ══════════════════════ -->
+<section class="page" id="passivas">
+  <p class="eyebrow">05 — Mecânica Principal</p>
+  <h2 class="h-display">Habilidades Passivas</h2>
+  <p class="body-text">
+    Cada personagem tem uma <strong style="color:var(--ambar)">habilidade passiva única</strong> — o coração da sua estratégia. As passivas são sempre automáticas: quando a condição é atendida, o efeito acontece obrigatoriamente. Não é possível escolher não ativar.
+  </p>
+
+  <div class="callout flame" style="margin-top:1.5rem;">
+    <p class="callout-title">Regra Fundamental das Passivas</p>
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.75;">Habilidades passivas são <strong style="color:var(--perg)">automáticas e obrigatórias</strong>. Se a condição for atendida, o efeito é resolvido — independentemente de ser vantajoso ou não naquele momento. Isso é intencional: faz parte do estilo de jogo de cada personagem.</p>
+  </div>
+
+  <div class="table-wrap" style="margin-top:2rem;">
+    <table>
+      <thead><tr><th>Personagem</th><th>Nome da Passiva</th><th>Condição</th><th>Efeito</th><th>Verificação</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Pacto das Sombras</td>
+          <td><em style="color:var(--ouro)">Manto das Trevas</em></td>
+          <td>Se você tiver ≤3 cartas na mão</td>
+          <td>Compre 1 carta</td>
+          <td>Início do turno (Passo 2)</td>
+        </tr>
+        <tr>
+          <td>Sangue de Druida</td>
+          <td><em style="color:var(--ouro)">Ciclo da Natureza</em></td>
+          <td>Se você jogou ≥2 cartas neste turno</td>
+          <td>Cure 1 de vida</td>
+          <td>Final do turno (Passo 4)</td>
+        </tr>
+        <tr>
+          <td>Elixir da Dríade</td>
+          <td><em style="color:var(--ouro)">Essência da Floresta</em></td>
+          <td>Se você curou alguém neste turno</td>
+          <td>Compre 1 carta</td>
+          <td>Final do turno (Passo 4)</td>
+        </tr>
+        <tr>
+          <td>Orvalho de Valirian</td>
+          <td><em style="color:var(--ouro)">Primeiro Orvalho</em></td>
+          <td>Sempre (na 1ª carta do turno)</td>
+          <td>A 1ª carta não é ação principal — você pode jogar outra</td>
+          <td>Ao jogar a 1ª carta (Passo 3)</td>
+        </tr>
+        <tr>
+          <td>Juramento do Aventureiro</td>
+          <td><em style="color:var(--ouro)">Código do Aventureiro</em></td>
+          <td>Sempre (configurada antes da partida)</td>
+          <td>Cartas do tipo escolhido têm +1 de efeito durante toda a partida</td>
+          <td>Configuração (antes de iniciar)</td>
+        </tr>
+        <tr>
+          <td>Tempestade de Trigo</td>
+          <td><em style="color:var(--ouro)">Fúria dos Ventos</em></td>
+          <td>Sempre (D20 no início do turno)</td>
+          <td>1–10: sofra 1 de dano | 11–18: compre 1 carta | 19–20: cause 3 dano + compre 1</td>
+          <td>Início do turno (Passo 2)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ PERSONAGENS ══════════════════════ -->
+<section class="page-wide" id="personagens">
+  <p class="eyebrow">06 — Os Seis Guerreiros do Barril</p>
+  <h2 class="h-display" style="padding:0 2rem;">Personagens &amp; Decks</h2>
+  <p class="body-text" style="padding:0 2rem 2rem;">Cada deck tem personalidade, mecânica e estilo de jogo únicos. Estude os personagens antes de escolher — a identidade de cada deck foi construída para espelhar a própria cerveja que representa.</p>
+
+  <!-- PACTO DAS SOMBRAS -->
+  <div class="char-sheet sombras">
+    <div class="char-header">
+      <div class="char-glyph">🖤</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Porter · Controlador / Sombrio</p>
+        <h3 class="char-name">Pacto das Sombras</h3>
+        <p class="char-archetype">O mestre do controle. Força seus oponentes a descartarem cartas e brilha quando está em desvantagem.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot"></div>
+          <span class="diff-label">Intermediário</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Manto das Trevas</p>
+        <p class="passive-text">No início do seu turno, se você tiver <strong>3 ou menos cartas na mão</strong>, compre 1 carta automaticamente.</p>
+      </div>
+      <p class="char-lore">"Há magias que não deveriam ser invocadas. Há pactos que custam mais do que se imagina. O Pacto das Sombras é uma Porter encorpada e escura — como os segredos que ela guarda. Quem bebe, aceita o acordo."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">Mantenha sua mão propositalmente baixa (≤3) para ativar o <em>Manto das Trevas</em>. Use <em>Sussurros</em> para forçar descartes nos oponentes, quebrando seus combos. Guarde <em>Eclipse</em> e <em>Último Pacto</em> para o momento decisivo — mas cuidado com o custo de vida do Último Pacto.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Toque Sombrio <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 3 de dano em um oponente.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Sombra Cortante <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Se você tiver ≤3 cartas na mão, cause +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2/4</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Dreno de Alma <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano. Cure 2 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span><span class="stat-pill stat-heal">🌿 2</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Crepúsculo <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano em todos os oponentes.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2 (área)</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Lâmina das Sombras <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 4 de dano. Descarte 1 carta da mão após o uso.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 4</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Espectro Voraz <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 3 de dano. Se oponente tiver ≤10 de vida, cause +2 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3/5</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Manto da Noite <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. No próximo turno, compre 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Abismo <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Se você tiver ≤10 de vida, absorve +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2/4</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Escuridão Protetora <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Quando destruída, cause 1 de dano ao atacante.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Regeneração Sombria <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 3 de vida. Se você tiver ≤3 cartas na mão, cure +2 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3/5</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Pacto de Sangue <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 5 de vida. Você sofre 1 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5</span><span class="stat-pill stat-atk">💥 -1</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Pacto Selado <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Compre 2 cartas. Depois, descarte 1 carta da sua mão.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Sussurros <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Olhe a mão de um oponente. Escolha 1 carta para ele descartar.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Necromancia <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Pegue 1 carta da sua pilha de descartes e coloque na mão.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Espiral das Sombras <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Todos os oponentes descartam 1 carta.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Eclipse <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 4 de dano em TODOS os oponentes. Descarte sua mão após o uso.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 4 (área)</span></div></div>
+        <div class="mini-card special"><div class="mini-card-name">Último Pacto <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 6 de dano. Você sofre 2 de dano. Só pode usar se tiver ≤5 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 6</span><span class="stat-pill stat-atk">💥 -2</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SANGUE DE DRUIDA -->
+  <div class="char-sheet druida">
+    <div class="char-header">
+      <div class="char-glyph">🩸</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Irish Red Ale · Equilibrado / Conector</p>
+        <h3 class="char-name">Sangue de Druida</h3>
+        <p class="char-archetype">O mestre dos combos. Conecta ações em sequência, ganha bônus por consistência e se cura enquanto ataca.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <span class="diff-label">Avançado</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Ciclo da Natureza</p>
+        <p class="passive-text">No final do seu turno, se você jogou <strong>2 ou mais cartas</strong> neste turno, cure 1 de vida automaticamente.</p>
+      </div>
+      <p class="char-lore">"Nas florestas antigas, os druidas conhecem o fluxo da vida. Sangue de Druida é uma Irish Red Ale que celebra esse equilíbrio — terrosa, encorpada, com alma de madeira. Cada gole é um lembrete: a natureza recompensa quem respeita seu ritmo."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">Sempre tente jogar 2 cartas por turno para ativar o <em>Ciclo da Natureza</em>. Use <em>Ciclo das Estações</em> para conseguir ações extras. <em>Investida do Urso</em> causa dano massivo após dois turnos consistentes. Cuidado: é o deck mais vulnerável a controle de mão.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Garra do Lobo <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Se você jogou outra carta neste turno, cause +1 (total 3).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2/3</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Toque da Vida <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano. Cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Eco da Floresta <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano em todos os oponentes. Cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2 (área)</span><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Investida do Urso <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 3 de dano. Se você jogou ≥2 cartas neste turno, cause +2 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3/5</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Escudo de Casca <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. Ao ser destruído, cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Muralha de Espinhos <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Ao ser destruído, cause 1 de dano ao atacante.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Raiz Anciã <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Permanente até ser destruído.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Seiva Curativa <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 3 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Círculo de Renovação <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 2 de vida em si mesmo e em um aliado.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Bênção da Floresta <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 1 de vida. Compre 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Espírito da Floresta <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 5 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Ciclo das Estações <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Compre 2 cartas. Depois jogue 1 carta adicional neste turno.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Comunhão com a Natureza <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Olhe as 3 cartas do topo. Coloque 1 na mão, as demais de volta em qualquer ordem.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Pacto Druídico <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Recupere 1 carta do descarte e jogue-a imediatamente.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Lamento da Floresta <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Todos os oponentes descartam 1 carta. Você compra 1 carta.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Fúria Primal <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Jogue mais 1 carta neste turno. Todos os seus ataques neste turno causam +1 de dano.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Despertar da Floresta <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 3 de dano a um oponente. Cure 3 de vida. Compre 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3</span><span class="stat-pill stat-heal">🌿 3</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELIXIR DA DRÍADE -->
+  <div class="char-sheet driade">
+    <div class="char-header">
+      <div class="char-glyph">🌿</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Session Juice IPA · Curativo / Protetor</p>
+        <h3 class="char-name">Elixir da Dríade</h3>
+        <p class="char-archetype">A guardiã do grupo. Cada cura gera benefícios extras. Ideal para modos com aliados ou para quem prefere jogo de suporte.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot" style="border-color:rgba(200,132,10,.2)"></div>
+          <span class="diff-label">Iniciante – Intermediário</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Essência da Floresta</p>
+        <p class="passive-text">No final do seu turno, se você curou alguém (incluindo a si mesmo) neste turno, compre 1 carta automaticamente.</p>
+      </div>
+      <p class="char-lore">"Dizem que dríades nascem das árvores mais antigas. O Elixir da Dríade carrega esse dom — suave, refrescante, com uma profundidade que só quem prova entende. É o conforto da floresta em forma líquida."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">Cure sempre que possível para manter sua mão cheia via <em>Essência da Floresta</em>. <em>Florescer</em> se torna um ataque poderoso após uma cura no mesmo turno. Em modos multiplayer, <em>Coração da Floresta</em> e <em>Abraço da Dríade</em> tornam você indispensável para a equipe.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Espinho Curativo <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Enredar <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 1 de dano. Oponente não pode jogar Ataques no próximo turno.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Florescer <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano. Se você curou alguém neste turno, cause +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2/4</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Chuva de Pétalas <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 3 de dano em todos oponentes. Cure 1 de vida por oponente atingido.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3 (área)</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Seiva Curativa (Atk) <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 2 de dano. Cure 3 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span><span class="stat-pill stat-heal">🌿 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Casca Protetora <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. Quando destruída, cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Muralha Verde <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Pode proteger um aliado (transfere dano para esta defesa).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Coroa de Espinhos <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Ao ser destruída, cause 2 de dano ao atacante.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Néctar Sagrado <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 3 de vida em você ou em um aliado.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Abraço da Dríade <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 2 de vida. O aliado curado compra 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Renovação <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 1 de vida. Se curou alguém neste turno, cure +3 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 1/4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Coração da Floresta <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 5 de vida em todos os aliados (incluindo você).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5 (todos)</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Sabedoria Antiga <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Compre 2 cartas.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Polinização <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Escolha um oponente: ele descarta 1 carta. Você compra 1 carta.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Sinfonia da Floresta <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Todos os aliados (incluindo você) compram 1 carta.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Raízes Ancestrais <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Pegue 1 carta do descarte de qualquer jogador e coloque na sua mão.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Despertar da Flora <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 3 de vida em todos os aliados. Cause 2 de dano em todos os oponentes.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Pacto da Vida <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Escolha um aliado (pode ser você). Cure 6 de vida. Você sofre 2 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 6</span><span class="stat-pill stat-atk">💥 -2</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORVALHO DE VALIRIAN -->
+  <div class="char-sheet orvalho">
+    <div class="char-header">
+      <div class="char-glyph">💧</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Witbier · Ágil / Surpresa</p>
+        <h3 class="char-name">Orvalho de Valirian</h3>
+        <p class="char-archetype">O mais rápido da taverna. Joga múltiplas cartas por turno com cartas pequenas e rápidas. Ideal para iniciantes.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot"></div>
+          <div class="diff-dot"></div>
+          <span class="diff-label">Iniciante</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Primeiro Orvalho</p>
+        <p class="passive-text">A <strong>primeira carta</strong> que você jogar no turno não conta como sua ação principal — você pode jogar uma segunda carta normalmente como ação principal após ela.</p>
+      </div>
+      <p class="char-lore">"Nas primeiras horas da manhã, quando o sol ainda não rompeu a névoa, o orvalho se forma. Dizem que quem prova ao amanhecer ganha agilidade e clareza. O Orvalho de Valirian é uma Witbier leve e cristalina — o começo de uma nova jornada."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">Você sempre joga pelo menos 2 cartas por turno graças ao <em>Primeiro Orvalho</em>. Use cartas pequenas primeiro para acionar a passiva e depois jogue uma carta mais poderosa como ação principal. <em>Lufada Repentina</em> e <em>Agilidade Felina</em> concedem ações extras, permitindo turnos de 3 ou 4 cartas.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Gota Matinal <span class="mini-card-qty">×4</span></div><p class="mini-card-effect">Cause 1 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Brisa Suave <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 1 de dano. Compre 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Lufada Repentina <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Você pode jogar uma carta adicional neste turno.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Chuva de Cristais <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano em todos os oponentes.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2 (área)</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Espelho d'Água <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Quando destruída, compre 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Escudo de Névoa <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. Reduz dano de ataques de área em -1 adicional.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Manto de Orvalho <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Quando destruído, cure 1 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4</span><span class="stat-pill stat-heal">🌿 1</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Gotas Refrescantes <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cure 2 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Orvalho Matinal <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 3 de vida. Se esta foi a 1ª carta do turno, cure +2 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3/5</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Fonte da Juventude <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 5 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Agilidade Felina <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Compre 1 carta. Você pode jogar uma carta adicional neste turno.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Reflexos Rápidos <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Escolha um oponente: ele descarta 1 carta. Você compra 1 carta.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Dança das Águas <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Compre 2 cartas. Você pode jogar uma carta adicional neste turno.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Vendaval <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Jogue 2 cartas adicionais neste turno. Todas as cartas jogadas neste turno custam 0 ação.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Aurora Cristalina <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 2 de dano em todos os oponentes. Cure 2 de vida. Compre 2 cartas.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2 (área)</span><span class="stat-pill stat-heal">🌿 2</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JURAMENTO DO AVENTUREIRO -->
+  <div class="char-sheet juramento">
+    <div class="char-header">
+      <div class="char-glyph">⚔️</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Amber Ale · Versátil / Adaptável</p>
+        <h3 class="char-name">Juramento do Aventureiro</h3>
+        <p class="char-archetype">O mais adaptável. Você define seu estilo antes de começar e potencializa um tipo de carta durante toda a partida.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot"></div>
+          <span class="diff-label">Intermediário</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Código do Aventureiro</p>
+        <p class="passive-text">Antes da partida, escolha 1 tipo de carta: Ataque, Defesa, Cura ou Habilidade. <strong>Cartas desse tipo têm +1 de efeito durante toda a partida.</strong> (Ex: Ataques de 2 viram 3; Defesas de 3 viram 4.)</p>
+      </div>
+      <p class="char-lore">"Todo aventureiro sabe: o mundo não espera você se preparar. É preciso versatilidade, coragem e, acima de tudo, um juramento. Juramento do Aventureiro é uma Amber Ale equilibrada, confiável, pronta para qualquer desafio."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">A escolha do <em>Código do Aventureiro</em> é decisiva — observe os outros decks antes de decidir. Contra decks agressivos, escolha Defesa ou Cura. Contra decks de controle, escolha Ataque. Cartas como <em>Ataque Coordenado</em> e <em>Inspiração</em> tornam este deck devastador em modos com aliados.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Espada Juramentada <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 3 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Golpe do Herói <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Se escolheu Ataque no Código, cause +1 (total 3).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2/3</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Escudo da Irmandade (Atk) <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano. Reduza em 1 o próximo dano que um aliado sofrer.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Ataque Coordenado <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 2 de dano. Um aliado à escolha pode jogar 1 carta adicional neste turno.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Escudo da Irmandade (Def) <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. Protege a si mesmo e um aliado (divide o dano igualmente).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Postura de Ferro <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Se escolheu Defesa no Código, absorve +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2/4</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Muralha Humana <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Protege todos os aliados.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Poção da Coragem <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 3 de vida. Na próxima vez que atacar, cause +1 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Bálsamo Herbal <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cure 2 de vida. Se escolheu Cura no Código, cure +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2/4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Toque do Clérigo <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 5 de vida em um aliado (pode ser você).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Mapa do Tesouro <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Compre 2 cartas. Escolha 1 para manter, descarte a outra.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Planejamento Estratégico <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Olhe as 3 cartas do topo do baralho. Coloque-as de volta em qualquer ordem.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Grito de Guerra <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 1 de dano em todos os oponentes. Todos os aliados compram 1 carta.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1 (área)</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Inspiração <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Um aliado compra 2 cartas e pode jogar 1 carta adicional neste turno.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Sacrifício Heroico <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Sofra 3 de dano. Um aliado à escolha cura 5 de vida.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 5</span><span class="stat-pill stat-atk">💥 -3</span></div></div>
+        <div class="mini-card special"><div class="mini-card-name">Juramento Final <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Escolha 1 tipo de carta. Todas desse tipo têm +2 de efeito pelo resto da partida. Você sofre 2 de dano.</p></div>
+        <div class="mini-card special"><div class="mini-card-name">Irmandade <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Escolha um aliado. Vocês trocam Pints de Glória atuais. Cada um cura 2 após a troca.</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPESTADE DE TRIGO -->
+  <div class="char-sheet tempestade">
+    <div class="char-header">
+      <div class="char-glyph">🌩️</div>
+      <div class="char-title-block">
+        <p class="char-style-label">Weiss · Explosivo / Imprevisível</p>
+        <h3 class="char-name">Tempestade de Trigo</h3>
+        <p class="char-archetype">O caos personificado. Rola o D20 todo turno — a sorte determina se você ataca, cura ou sofre. Alto risco, alto retorno.</p>
+        <div class="char-difficulty">
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot filled"></div>
+          <div class="diff-dot"></div>
+          <span class="diff-label">Intermediário</span>
+        </div>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-passive">
+        <p class="passive-name">⚡ Fúria dos Ventos — Role o D20 no início de cada turno:</p>
+        <p class="passive-text" style="margin-top:.5rem;">🎲 <strong style="color:#E88A8A">1–10:</strong> Você sofre 1 de dano próprio.<br>🎲 <strong style="color:var(--ouro)">11–18:</strong> Compre 1 carta extra.<br>🎲 <strong style="color:#7DCC7D">19–20:</strong> Cause 3 de dano em um oponente à escolha E compre 1 carta.</p>
+      </div>
+      <p class="char-lore">"O trigo balança com o vento, mas quando a tempestade chega, até as montanhas tremem. Uma Weissbier imprevisível — refrescante como a brisa, com um trovão escondido. Quem prova, sente a energia do céu aberto."</p>
+      <h4 class="h-section" style="margin-top:.5rem;">Como Jogar</h4>
+      <p style="font-size:.9rem;color:rgba(245,230,200,.78);line-height:1.8;margin-bottom:1.5rem;">Abrace a imprevisibilidade — ela é sua força. Muitas cartas da Tempestade têm efeitos especiais baseados no resultado do D20 daquele turno. Guarde <em>Trovoada</em> e <em>Furacão</em> para virar uma partida. <em>Furacão</em> em particular pode mudar completamente o estado do jogo.</p>
+      <div class="char-cards-grid">
+        <div class="mini-card atk"><div class="mini-card-name">Rajada <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 2 de dano. Se o resultado da passiva foi ímpar, cause +1 (total 3).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2/3</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Raio <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 3 de dano. Se a passiva foi 1–10, cause +2 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3/5</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Vendaval <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cause 1 de dano em todos os oponentes.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1 (área)</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Ciclone <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Cause 4 de dano em um oponente e 2 em outro (escolha aleatória).</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 4/2</span></div></div>
+        <div class="mini-card atk"><div class="mini-card-name">Nuvens Negras <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Todos os oponentes sofrem 2 de dano. Você sofre 1 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 2 (área)</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Escudo de Vento <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×3. Reduz dano de ataques de área em -1 adicional.</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 3</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Calmaria <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">🛡️×2. Se não causou dano neste turno, absorve +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 2/4</span></div></div>
+        <div class="mini-card def"><div class="mini-card-name">Olho da Tempestade <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">🛡️×4. Se você sofreu dano neste turno, reduza +1 (total 5).</p><div class="mini-card-stats"><span class="stat-pill stat-def">🛡️ 4/5</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Brisa Refrescante <span class="mini-card-qty">×3</span></div><p class="mini-card-effect">Cure 2 de vida. Se a passiva foi 11–18, cure +2 (total 4).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 2/4</span></div></div>
+        <div class="mini-card heal"><div class="mini-card-name">Chuvas Benéficas <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cure 3 de vida em todos os aliados (incluindo você).</p><div class="mini-card-stats"><span class="stat-pill stat-heal">🌿 3 (todos)</span></div></div>
+        <div class="mini-card ability"><div class="mini-card-name">Previsão do Tempo <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Olhe as 3 cartas do topo. Coloque-as de volta em qualquer ordem. Se a passiva foi 19–20, compre 1 carta extra.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Fúria dos Elementos <span class="mini-card-qty">×2</span></div><p class="mini-card-effect">Oponente descarta 1 carta. Você compra 1. Se a passiva foi 1–10, você também descarta 1.</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Corrente de Ar <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Compre 2 cartas. Se a passiva foi 19–20, compre +2 (total 4).</p></div>
+        <div class="mini-card ability"><div class="mini-card-name">Eletricidade Estática <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Todos os oponentes sofrem 1 de dano. Todos os aliados compram 1. Se a passiva foi 1–10, todos sofrem +1.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 1/2 (área)</span></div></div>
+        <div class="mini-card special"><div class="mini-card-name">Trovoada <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Cause 5 de dano em um oponente. Todos os outros sofrem 2 de dano. Você sofre 2 de dano.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 5/2</span></div></div>
+        <div class="mini-card special"><div class="mini-card-name">Furacão <span class="mini-card-qty">×1</span></div><p class="mini-card-effect">Todos os oponentes sofrem 3 de dano. Embaralhe todas as mãos de volta aos baralhos. Cada jogador compra 5 novas cartas.</p><div class="mini-card-stats"><span class="stat-pill stat-atk">💥 3 (área)</span></div></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ MODOS DE JOGO ══════════════════════ -->
+<section class="page" id="modos">
+  <p class="eyebrow">07 — Variantes Oficiais</p>
+  <h2 class="h-display">Modos de Jogo</h2>
+  <p class="body-text">O jogo suporta quatro modos oficiais, adaptados ao número de jogadores. Para a primeira partida, recomendamos o <strong style="color:var(--ambar)">Duelo</strong> ou a <strong style="color:var(--ambar)">Batalha da Taverna</strong>.</p>
+
+  <div class="modes-grid">
+    <div class="mode-card">
+      <span class="mode-icon">⚔️</span>
+      <p class="mode-name">Duelo</p>
+      <p class="mode-players">2 Jogadores · Pints Iniciais: 25</p>
+      <p class="mode-body">O modo clássico 1v1. Mais longo e estratégico do que os modos multiplayer. Com 25 Pints, cada decisão importa mais. Ideal para aprender os decks em profundidade e testar matchups.</p>
+      <p class="mode-rule">Primeiro a nocautear o oponente vence.</p>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-icon">🏟️</span>
+      <p class="mode-name">Batalha da Taverna</p>
+      <p class="mode-players">3–4 Jogadores · Pints Iniciais: 20</p>
+      <p class="mode-body">Todos contra todos. A política de mesa entra em cena — às vezes vale a pena poupar um oponente para eliminar outro primeiro. Dinâmico e caótico do jeito certo.</p>
+      <p class="mode-rule">Regra adicional — Favor da Taverna: ao ser nocauteado, você pode dar 1 carta aleatória da mão a um sobrevivente à escolha, como legado de batalha.</p>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-icon">🎉</span>
+      <p class="mode-name">Festa da Colheita</p>
+      <p class="mode-players">5–6 Jogadores · Pints Iniciais: 20</p>
+      <p class="mode-body">O modo de festa. Todos contra todos, partidas rápidas com energia alta. Com mais jogadores, o jogo se torna mais caótico e os ataques de área ficam muito mais poderosos.</p>
+      <p class="mode-rule">Regra adicional — Recompensa do Caçador: ao nocautear um oponente, cure 2 Pints de Glória. Incentiva agressividade e turnos rápidos.</p>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-icon">🛢️</span>
+      <p class="mode-name">A Ira do Barril Amaldiçoado</p>
+      <p class="mode-players">2–5 Jogadores · Cooperativo · Expansão Futura</p>
+      <p class="mode-body">Todos os jogadores contra um inimigo comum: o Barril Amaldiçoado, controlado por um deck especial. A cada rodada, o Chefão executa ações pré-programadas contra todos.</p>
+      <p class="mode-rule">Vitória se o grupo sobreviver por 10 rodadas ou causar dano coletivo suficiente para zerar os Pints do Chefão.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ REGRAS ESPECIAIS ══════════════════════ -->
+<section class="page" id="regras-especiais">
+  <p class="eyebrow">08 — Situações Específicas</p>
+  <h2 class="h-display">Regras Especiais</h2>
+
+  <h3 class="h-section">Baralho Vazio</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Se você precisar comprar uma carta e seu baralho estiver vazio: <strong style="color:var(--perg)">(1)</strong> Vire toda a pilha de descartes. <strong style="color:var(--perg)">(2)</strong> Embaralhe-a bem. <strong style="color:var(--perg)">(3)</strong> Esse é o seu novo baralho. <strong style="color:var(--perg)">(4)</strong> Continue comprando normalmente. Se não houver descarte, não é possível comprar — pule a compra.</p>
+  </div>
+
+  <h3 class="h-section">Mão Cheia</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Você não pode ter mais de 5 cartas na mão antes do Passo 5 do turno. Se um efeito forçar a compra de uma carta enquanto você já tem 5 na mão: compre a carta, depois descarte imediatamente até ter 5. A carta recém-comprada pode ser descartada.</p>
+  </div>
+
+  <h3 class="h-section">Dano em Área vs. Defesas</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Cartas com dano em área (ex: "Cause 2 de dano em todos os oponentes") aplicam o dano a cada jogador individualmente. As Defesas de cada jogador são calculadas separadamente. O jogador A pode usar sua Defesa para absorver o dano enquanto o jogador B, sem Defesas, recebe o dano direto nos Pints.</p>
+  </div>
+
+  <h3 class="h-section">Efeitos "Quando Destruída"</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Algumas cartas de Defesa têm efeitos ativados quando são destruídas (ex: "Quando destruída, cause 1 de dano ao atacante"). Esse efeito é resolvido imediatamente, antes da carta ir para o descarte. O atacante não pode evitar esse efeito.</p>
+  </div>
+
+  <h3 class="h-section">Múltiplas Ações no Mesmo Turno</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Cartas como <em>Lufada Repentina</em>, <em>Agilidade Felina</em> e <em>Ciclo das Estações</em> permitem jogar cartas adicionais no mesmo turno. Essas ações extras não são "ações principais" — você ainda deve jogar sua ação principal normalmente. Exceção: <em>Vendaval</em> (Orvalho) permite que todas as cartas do turno custem 0 ação.</p>
+  </div>
+
+  <h3 class="h-section">Empate</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Se uma carta causar dano suficiente para nocautear todos os jogadores restantes simultaneamente (ex: <em>Eclipse</em> ou <em>Furacão</em> elimina os últimos dois), a partida termina em empate. Todos brindam — o barril da honra fica vazio. Preparem uma nova partida.</p>
+  </div>
+
+  <h3 class="h-section">Cartas Condicionais — "Só pode usar se..."</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Cartas com condição de uso (ex: <em>Último Pacto</em>: "Só pode usar se tiver ≤5 de vida") só podem ser jogadas quando a condição for verdadeira. Se a condição não for atendida, a carta não pode ser jogada naquele turno — mas permanece na mão para ser jogada quando a condição for cumprida.</p>
+  </div>
+
+  <h3 class="h-section">Limite Máximo de Vida</h3>
+  <div class="rule-box" data-label="Regra">
+    <p style="font-size:.92rem;color:rgba(245,230,200,.82);line-height:1.8;">Você nunca pode ter mais Pints de Glória do que seu máximo inicial (<strong style="color:var(--perg)">20 Pints</strong> na maioria dos modos, <strong style="color:var(--perg)">25 Pints</strong> no Duelo). Se uma cura excederia o máximo, você cura apenas até o limite. O excesso é perdido.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ BALANCEAMENTO ══════════════════════ -->
+<section class="page" id="balanceamento">
+  <p class="eyebrow">09 — Guia Estratégico</p>
+  <h2 class="h-display">Balanceamento &amp; Matchups</h2>
+  <p class="body-text">Nenhum deck é invencível. Cada arquétipo tem pontos fortes e fraquezas. Compreender os matchups é parte essencial do domínio do jogo.</p>
+
+  <div class="table-wrap" style="margin-top:2rem;">
+    <table>
+      <thead><tr><th>Deck</th><th>Ponto Forte</th><th>Ponto Fraco</th><th>Dificuldade</th></tr></thead>
+      <tbody>
+        <tr><td>Pacto das Sombras</td><td>Controle de mão, late game explosivo</td><td>Poucas curas, vulnerável no early game</td><td>🟡 Intermediário</td></tr>
+        <tr><td>Sangue de Druida</td><td>Combos consistentes, cura constante</td><td>Muito vulnerável a controle de mão</td><td>🔴 Avançado</td></tr>
+        <tr><td>Elixir da Dríade</td><td>Cura em área, suporte a aliados</td><td>Baixo dano ofensivo puro</td><td>🟢 Iniciante–Interm.</td></tr>
+        <tr><td>Orvalho de Valirian</td><td>Velocidade, múltiplas ações por turno</td><td>Baixo dano por carta individual</td><td>🟢 Iniciante</td></tr>
+        <tr><td>Juramento do Aventureiro</td><td>Adaptação, suporte em multiplayer</td><td>Força depende da escolha inicial</td><td>🟡 Intermediário</td></tr>
+        <tr><td>Tempestade de Trigo</td><td>Potencial explosivo, imprevisibilidade</td><td>Aleatoriedade pode prejudicar o próprio jogador</td><td>🟡 Intermediário</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="h-section" style="margin-top:2.5rem;">Matchups Notáveis</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Confronto</th><th>Dinâmica</th><th>Quem tende a vencer</th></tr></thead>
+      <tbody>
+        <tr><td>Pacto × Sangue de Druida</td><td>Pacto usa Sussurros para quebrar os combos do Druida. Partida estratégica e longa.</td><td>Quem impuser seu ritmo primeiro</td></tr>
+        <tr><td>Orvalho × Pacto das Sombras</td><td>Orvalho inunda com ataques pequenos; Pacto tenta controlar com descartes.</td><td>Leve vantagem do Orvalho no early</td></tr>
+        <tr><td>Elixir × qualquer deck</td><td>O Elixir vence pelo desgaste — cura enquanto o oponente não consegue eliminá-lo.</td><td>Elixir na guerra longa</td></tr>
+        <tr><td>Tempestade × todos</td><td>Altamente variável. Um 19–20 no início pode decidir a partida. Um 1–10 pode ser fatal.</td><td>Depende da sorte do dado</td></tr>
+        <tr><td>Juramento × Pacto das Sombras</td><td>Se Juramento escolheu "Ataque" no Código, é difícil para o Pacto controlar.</td><td>Leve vantagem do Juramento (com Ataque)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ FAQ ══════════════════════ -->
+<section class="page" id="faq">
+  <p class="eyebrow">10 — Dúvidas Frequentes</p>
+  <h2 class="h-display">Perguntas &amp; Respostas</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Posso atacar a mim mesmo? <span>+</span>
+      </div>
+      <div class="faq-a">Não. Ataques só podem ter outros jogadores como alvo. A exceção são cartas que explicitamente dizem "Você sofre X de dano" — esses são custos, não ataques a si mesmo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Posso curar um oponente? <span>+</span>
+      </div>
+      <div class="faq-a">Somente se a carta disser explicitamente "curar um aliado" ou "curar qualquer jogador". Cartas que apenas dizem "Cure X de vida" aplicam a cura apenas a você.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Tenho duas Defesas ativas. Posso escolher qual absorve o dano? <span>+</span>
+      </div>
+      <div class="faq-a">Sim. Quando você recebe dano, você (o jogador defensor) decide qual Defesa ativa absorve o dano primeiro. Isso permite estratégias como preservar uma Defesa com efeito "Quando destruída" para o momento certo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        E se minha mão estiver vazia quando chegar meu turno de jogar? <span>+</span>
+      </div>
+      <div class="faq-a">Se no Passo 3 você não tiver nenhuma carta para jogar, compre 2 cartas imediatamente do seu baralho e jogue 1 delas como sua ação principal.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        A habilidade passiva é obrigatória ou posso escolher não ativar? <span>+</span>
+      </div>
+      <div class="faq-a">As habilidades passivas são sempre obrigatórias e automáticas. Quando a condição for atendida, o efeito acontece — mesmo que seja prejudicial (ex: a Tempestade de Trigo pode sofrer dano de sua própria passiva, e isso é parte do design do deck).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Posso jogar mais de uma Defesa no mesmo turno? <span>+</span>
+      </div>
+      <div class="faq-a">Sim, desde que você tenha ações disponíveis para jogar cada carta. Cada Defesa jogada consome uma ação. Se um efeito der ação extra, você pode usar nela para jogar outra Defesa.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        O que acontece se o Eclipse (Pacto das Sombras) nocautear o último oponente mas o usuário também morrer com o custo? <span>+</span>
+      </div>
+      <div class="faq-a">O Eclipse não tem custo de dano próprio — apenas obriga a descartar a mão. Se o Eclipse nocautear todos os oponentes restantes, quem jogou o Eclipse vence a partida. Só é empate se todos morrem pelo dano da mesma carta.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        O Juramento do Aventureiro escolheu "Cura" no Código. Isso vale para Especiais que curam? <span>+</span>
+      </div>
+      <div class="faq-a">O Código do Aventureiro se aplica ao tipo da carta conforme indicado pela borda colorida. Cartas Especiais (borda chama) não são afetadas mesmo que incluam cura no efeito. O bônus só se aplica a cartas do tipo exato escolhido.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        O Furacão (Tempestade de Trigo) force todos a embaralharem as mãos. Inclui o próprio jogador? <span>+</span>
+      </div>
+      <div class="faq-a">Sim. O texto diz "todos os jogadores", incluindo quem jogou o Furacão. Após a carta resolver, cada jogador embaralha sua mão de volta ao baralho e compra 5 novas cartas. É um reset total do estado de mãos.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Como funciona o Favor da Taverna no modo Batalha da Taverna? <span>+</span>
+      </div>
+      <div class="faq-a">Quando você é nocauteado, antes de sair do jogo você pode dar 1 carta aleatória da sua mão a qualquer sobrevivente à escolha. Você embaralha sua mão virada para baixo e o sobrevivente tira 1 carta sem ver. O restante das cartas do jogador nocauteado vai para o descarte do próprio baralho.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════ GLOSSÁRIO ══════════════════════ -->
+<section class="page" id="glossario">
+  <p class="eyebrow">11 — Referência Rápida</p>
+  <h2 class="h-display">Glossário</h2>
+
+  <div class="glossary-grid">
+    <div class="glossary-item">
+      <p class="glossary-term">Pints de Glória</p>
+      <p class="glossary-def">Os pontos de vida de cada jogador. Começa em 20 (ou 25 no Duelo). Ao chegar a 0, o jogador é nocauteado e eliminado.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Nocauteado</p>
+      <p class="glossary-def">Estado de um jogador cujos Pints de Glória chegaram a zero. Esse jogador é eliminado da partida atual.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Mestre da Taverna</p>
+      <p class="glossary-def">Título concedido ao último jogador em pé. O vencedor da partida.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Ação Principal</p>
+      <p class="glossary-def">A carta obrigatória jogada no Passo 3 do turno. Cada turno tem exatamente 1 ação principal, a menos que efeitos específicos modifiquem isso.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Defesa Ativa</p>
+      <p class="glossary-def">Carta de Defesa em campo, virada para cima, aguardando absorver dano. Permanece até ser destruída (pontos esgotados).</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Pilha de Descarte</p>
+      <p class="glossary-def">Área onde as cartas usadas são colocadas viradas para cima. Quando o baralho acaba, o descarte é embaralhado para formar um novo baralho.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Mão</p>
+      <p class="glossary-def">As cartas que o jogador segura em mãos. O máximo é 5 cartas. Esse limite é verificado no Passo 5 do turno.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Baralho</p>
+      <p class="glossary-def">O deck de 30 cartas do personagem, embaralhado no início da partida. As cartas são compradas do topo.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Dano em Área</p>
+      <p class="glossary-def">Dano que afeta todos os oponentes simultaneamente. Calculado e aplicado a cada jogador separadamente, considerando as defesas individuais.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Habilidade Passiva</p>
+      <p class="glossary-def">Habilidade especial de cada personagem. Automática e obrigatória — ativa sempre que a condição for atendida, independente da vontade do jogador.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">Turno</p>
+      <p class="glossary-def">A vez de um jogador de executar os 6 passos do fluxo de jogo. O turno segue no sentido horário após cada jogada.</p>
+    </div>
+    <div class="glossary-item">
+      <p class="glossary-term">D20 Valirian</p>
+      <p class="glossary-def">O dado de vinte faces personalizado. Usado para definir a ordem de turno no início e pela habilidade passiva da Tempestade de Trigo.</p>
+    </div>
+  </div>
+</section>
+
+<div class="accent-bar" style="margin-top:5rem;">
+  <div style="background:#C8A028"></div>
+  <div style="background:#C8840A"></div>
+  <div style="background:#D4520E"></div>
+  <div style="background:#8B1F1F"></div>
+  <div style="background:#1E3D1E"></div>
+  <div style="background:#6B8FA8"></div>
+  <div style="background:#2A2010"></div>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="footer">
+  <p class="footer-logo">
+    Valirian
+    <span>Cervejaria</span>
+  </p>
+  <p style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.4em;color:var(--ambar);text-transform:uppercase;margin-top:.5rem;">Fermento &amp; Honra</p>
+  <p class="footer-tagline">"Na Valirian, não fazemos apenas cerveja.<br>Forjamos experiências para quem busca o extraordinário."</p>
+  <p style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:rgba(245,230,200,.25);margin-top:2rem;text-transform:uppercase;">
+    Manual Oficial · Edição do Aventureiro · Cervejaria Valirian · 2025<br>
+    contato@valirian.com.br · @nanocervejariavalirian
+  </p>
+</footer>
+
+<script>
+// smooth scroll offset for fixed nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) window.scrollTo({ top: target.offsetTop - 64, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
